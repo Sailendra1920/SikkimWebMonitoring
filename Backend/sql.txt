@@ -1,0 +1,30 @@
+#include"insertdb.h"
+
+void mysql_execute_query(MYSQL* conn, char *query)
+{
+    if(mysql_query(conn,query)){
+        printf("MYSQL QUERRRY Error: %s\n",mysql_error(conn));
+        exit(1);
+    }
+
+    printf("Insertion Succesful\n");
+}
+
+MYSQL* estConn()
+{
+    MYSQL* conn;
+    MYSQL_RES *res;
+    MYSQL_ROW row;
+
+    char *server="localhost";
+    char *user="USER";
+    char *password = "user123";
+    char *database = "sikkim";
+
+    conn= mysql_init(NULL);
+    if(!mysql_real_connect(conn,server,user,password,database,3306,NULL,0)){
+        printf("Connection Error : %s\n",mysql_error(conn));
+        exit(1);
+    }
+    return conn;
+}
