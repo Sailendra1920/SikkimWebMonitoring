@@ -1,5 +1,3 @@
-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
-
 MAKE SURE YOU HAVE CURL INSTALLED IN YOUR COMPUTER 
 	sudo apt-get install libcurl4-openssl-dev
 To run the code: 
