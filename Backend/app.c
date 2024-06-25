@@ -1,5 +1,7 @@
 #include "check.c"
 #include "sqlconnect.c"
+#include<unistd.h>
+
 typedef enum cat{
 
   MAIN = 0,
@@ -12,22 +14,27 @@ typedef enum cat{
 }cat;
   
 char *urlname[7]={"https://sikkim.gov.in/","https://sikkimhrdd.org","ephed.sikkim.gov.in","https://www.sntd.in","https://spsc.sikkim.gov.in","https://www.sikkimtourism.gov.in/Public/index","https://power.sikkim.gov.in"};
- char *tablename[7]={"SikkimGovIN","SikkimHRDD","EPHEDSikkim","SikkimSNT","SikkimSPSC","SikkimTourism","SikkimPower"};
+char *tablename[7]={"SikkimGovIN","SikkimHRDD","EPHEDSikkim","SikkimSNT","SikkimSPSC","SikkimTourism","SikkimPower"};
   
 int main(){
   data set[7];
   
   MYSQL *conn;
   conn = connectsql();
+  int loop =0;
+
+  while(loop==0)
+  { 
+    for(int i = 0; i<7; i++){
+        set[i] = getStatusCode(urlname[i]);
+    }
   
-  
-  for(int i = 0; i<7; i++){
-      set[i] = getStatusCode(urlname[i]);
-  }
-  
-  for(int i=0; i<7; i++)
-  {
-      processQuery(conn, tablename[i],set[i]);
+    for(int i=0; i<7; i++)
+    {
+        processQuery(conn, tablename[i],set[i]);
+    }
+
+    sleep(120);
   }
   closeConn(conn);
   
